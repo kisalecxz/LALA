@@ -31,45 +31,61 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            align-items: center;    /* centers vertically on large screens */
+            align-items: center;
             margin-top: 40px;
             padding: 20px;
             gap: 30px;
         }
 
+        /* Circle container with image transitions */
         .circle {
             width: 300px;
             height: 300px;
-            background: radial-gradient(circle at top left, #6ee7b7, #3b82f6);
             border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            color: white;
-            font-size: 1.4rem;
-            font-weight: 600;
-
+            position: relative;
+            overflow: hidden;
             cursor: pointer;
-            text-decoration: none;
 
-            /* base animation */
-            animation: float 3s ease-in-out infinite, pulse 2.5s ease-in-out infinite;
+            animation: float 3s ease-in-out infinite,
+                       pulse 2.5s ease-in-out infinite;
 
-            /* Hover transition */
-            transition: 
-                transform .35s ease,
-                box-shadow .35s ease,
-                filter .35s ease;
-            
+            transition: transform .35s ease,
+                        box-shadow .35s ease,
+                        filter .35s ease;
+
             box-shadow: 0 8px 20px rgba(0,0,0,0.25);
         }
 
-        /* ✨ HOVER ANIMATION — bigger, glowing, slight rotation */
+        /* Both images inside the circle */
+        .circle img.default-img,
+        .circle img.hover-img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            transition: opacity 0.45s ease;
+        }
+
+        /* Hover image starts invisible */
+        .circle img.hover-img {
+            opacity: 0;
+        }
+
+        /* Fade transition */
+        .circle:hover img.default-img {
+            opacity: 0;
+        }
+
+        .circle:hover img.hover-img {
+            opacity: 1;
+        }
+
+        /* Glow + rotation on hover */
         .circle:hover {
             transform: scale(1.18) rotate(6deg);
             filter: brightness(1.2);
-            box-shadow: 
+            box-shadow:
                 0 18px 40px rgba(59,130,246,0.7),
                 0 0 25px rgba(255,255,255,0.8);
         }
@@ -81,7 +97,7 @@
             100% { transform: translateY(0); }
         }
 
-        /* Soft pulsing glow */
+        /* Pulsing glow */
         @keyframes pulse {
             0% { box-shadow: 0 8px 20px rgba(59,130,246,0.3); }
             50% { box-shadow: 0 12px 30px rgba(59,130,246,0.7); }
@@ -123,20 +139,18 @@
             background: rgba(255,255,255,0.4);
         }
 
-        /* 📱 Mobile-friendly adjustments */
+        /* Mobile responsiveness */
         @media (max-width: 800px) {
             .circle {
-                width: 150px;
-                height: 150px;
-                font-size: 1.2rem;
+                width: 200px;
+                height: 200px;
             }
         }
 
         @media (max-width: 500px) {
             .circle {
-                width: 130px;
-                height: 130px;
-                font-size: 1rem;
+                width: 150px;
+                height: 150px;
             }
 
             header {
@@ -145,18 +159,6 @@
         }
     </style>
 
-    <script>
-        function showPage(page) {
-            document.getElementById("home").classList.remove("active");
-            document.getElementById(page).classList.add("active");
-        }
-
-        function goHome() {
-            document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-            document.getElementById("home").classList.add("active");
-        }
-    </script>
-
 </head>
 <body>
 
@@ -164,38 +166,31 @@
 
 <!-- HOME PAGE -->
 <div id="home" class="page active">
+
     <div class="circle-container">
-        <a class="circle" href="page1.html">Page 1</a>
-        <a class="circle" href="page2.html">Page 2</a>
-        <a class="circle" href="page3.html">Page 3</a>
-        <a class="circle" href="page4.html">Page 4</a>
+
+        <a class="circle" href="page1.html">
+            <img src="img1.jpg" class="default-img">
+            <img src="img1-hover.jpg" class="hover-img">
+        </a>
+
+        <a class="circle" href="page2.html">
+            <img src="img2.jpg" class="default-img">
+            <img src="img2-hover.jpg" class="hover-img">
+        </a>
+
+        <a class="circle" href="page3.html">
+            <img src="img3.jpg" class="default-img">
+            <img src="img3-hover.jpg" class="hover-img">
+        </a>
+
+        <a class="circle" href="page4.html">
+            <img src="img4.jpg" class="default-img">
+            <img src="img4-hover.jpg" class="hover-img">
+        </a>
 
     </div>
-</div>
 
-<!-- OTHER PAGES -->
-<div id="page1" class="page">
-    <h2>Page 1</h2>
-    <p>Welcome to page one!</p>
-    <a class="back-btn" onclick="goHome()">Back</a>
-</div>
-
-<div id="page2" class="page">
-    <h2>Page 2</h2>
-    <p>This is the second page.</p>
-    <a class="back-btn" onclick="goHome()">Back</a>
-</div>
-
-<div id="page3" class="page">
-    <h2>Page 3</h2>
-    <p>Here is page three.</p>
-    <a class="back-btn" onclick="goHome()">Back</a>
-</div>
-
-<div id="page4" class="page">
-    <h2>Page 4</h2>
-    <p>And this is page four.</p>
-    <a class="back-btn" onclick="goHome()">Back</a>
 </div>
 
 </body>
