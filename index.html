@@ -1,60 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Glowing Star</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Star Navigation</title>
 
-<style>
-    body {
-        margin: 0;
-        height: 100vh;
-        background: radial-gradient(circle at center, #0a0a14 0%, #000 100%);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
-        font-family: sans-serif;
-    }
+    <style>
+        /* Body + GIF background */
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+            z-index: 0;
 
-    .star-wrapper {
-        width: 320px;
-        height: 320px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        animation: float 4s ease-in-out infinite;
-    }
+            background: url('Images/galaxy.gif') no-repeat center center fixed;
+            background-size: cover;
+        }
 
-    /* The image itself */
-    .star-img {
-        width: 100%;
-        opacity: 0.85; /* blends into dark background */
-        filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.35));
-        transition: 0.5s ease;
-    }
+        /* Header */
+        header {
+            text-align: center;
+            padding: 25px 10px;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 3px 6px rgba(0,0,0,0.25);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+        }
 
-    /* Soft floating motion */
-    @keyframes float {
-        0%   { transform: translateY(0px); }
-        50%  { transform: translateY(-12px); }
-        100% { transform: translateY(0px); }
-    }
+        /* Container */
+        .circle-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            margin-top: 40px;
+            padding: 20px;
+            gap: 35px;
+        }
 
-    /* Hover effects */
-    .star-wrapper:hover .star-img {
-        transform: scale(1.08);
-        opacity: 1;
-        filter: drop-shadow(0 0 35px rgba(255, 255, 255, 0.7))
-                drop-shadow(0 0 60px rgba(255, 255, 255, 0.5));
-    }
-</style>
+        /* STAR SHAPE BUTTONS */
+        .circle {
+            width: 350px;
+            height: 350px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+
+            /* 8-point star */
+            clip-path: polygon(
+                50% 0%,
+                66% 22%,
+                100% 27%,
+                75% 50%,
+                100% 73%,
+                66% 78%,
+                50% 100%,
+                34% 78%,
+                0% 73%,
+                25% 50%,
+                0% 27%,
+                34% 22%
+            );
+
+            transition: transform .35s ease,
+                        box-shadow .35s ease,
+                        filter .35s ease;
+
+            /* SOFT COSMIC GLOW */
+            box-shadow:
+                0 0 16px rgba(255,255,255,0.25),
+                0 0 40px rgba(80,130,255,0.35),
+                0 0 80px rgba(80,130,255,0.15);
+            
+            animation: glowPulse 4s ease-in-out infinite;
+        }
+
+        /* Pulsing aura */
+        @keyframes glowPulse {
+            0% {
+                box-shadow:
+                    0 0 15px rgba(255,255,255,0.18),
+                    0 0 38px rgba(80,130,255,0.28),
+                    0 0 70px rgba(80,130,255,0.12);
+            }
+            50% {
+                box-shadow:
+                    0 0 25px rgba(255,255,255,0.35),
+                    0 0 60px rgba(80,130,255,0.45),
+                    0 0 95px rgba(80,130,255,0.25);
+            }
+            100% {
+                box-shadow:
+                    0 0 15px rgba(255,255,255,0.18),
+                    0 0 38px rgba(80,130,255,0.28),
+                    0 0 70px rgba(80,130,255,0.12);
+            }
+        }
+
+        /* Images inside star */
+        .circle img.default-img,
+        .circle img.hover-img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+
+            /* Blend with space background */
+            mix-blend-mode: lighten;
+
+            transition: opacity 0.45s ease;
+        }
+
+        .circle img.hover-img {
+            opacity: 0;
+        }
+
+        /* Hover image swap */
+        .circle:hover img.default-img { opacity: 0; }
+        .circle:hover img.hover-img { opacity: 1; }
+
+        /* Hover behavior: brighter glow + movement */
+        .circle:hover {
+            transform: scale(1.15) rotate(6deg);
+            filter: brightness(1.25);
+            box-shadow:
+                0 0 32px rgba(255,255,255,0.45),
+                0 0 70px rgba(80,130,255,0.65),
+                0 0 120px rgba(80,130,255,0.35);
+        }
+
+        /* Floating animation */
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-18px); }
+            100% { transform: translateY(0); }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 700px) {
+            .circle { width: 240px; height: 240px; }
+            header { font-size: 2.2rem; }
+        }
+
+        @media (max-width: 450px) {
+            .circle { width: 180px; height: 180px; }
+            header { font-size: 2rem; }
+        }
+    </style>
 </head>
+
 <body>
 
-<div class="star-wrapper">
-    <img src="your-image.png" class="star-img" alt="Glowing Star">
+<header>My Animated Website</header>
+
+<div class="circle-container">
+
+    <a class="circle" href="page1.html">
+        <img src="Images/img1.jpg" class="default-img" alt="Page 1">
+        <img src="Images/img1-hover.jpg" class="hover-img" alt="Page 1 Hover">
+    </a>
+
+    <a class="circle" href="page2.html">
+        <img src="Images/img2.jpg" class="default-img" alt="Page 2">
+        <img src="Images/img2-hover.jpg" class="hover-img" alt="Page 2 Hover">
+    </a>
+
+    <a class="circle" href="page3.html">
+        <img src="Images/img3.jpg" class="default-img" alt="Page 3">
+        <img src="Images/img3-hover.jpg" class="hover-img" alt="Page 3 Hover">
+    </a>
+
+    <a class="circle" href="page4.html">
+        <img src="Images/img4.jpg" class="default-img" alt="Page 4">
+        <img src="Images/img4-hover.jpg" class="hover-img" alt="Page 4 Hover">
+    </a>
+
 </div>
+
+<!-- JS for mobile tap hover -->
+<script>
+document.querySelectorAll('.circle').forEach(circle => {
+    circle.addEventListener('click', function(e) {
+        const defaultImg = circle.querySelector('.default-img');
+        const hoverImg = circle.querySelector('.hover-img');
+
+        if (defaultImg.style.opacity !== "0") {
+            defaultImg.style.opacity = "0";
+            hoverImg.style.opacity = "1";
+        } else {
+            defaultImg.style.opacity = "1";
+            hoverImg.style.opacity = "0";
+        }
+    });
+});
+</script>
 
 </body>
 </html>
