@@ -6,31 +6,17 @@
     <title>Animated Circle Navigation</title>
 
     <style>
-        /* Body + Galaxy background */
+        /* Body + GIF background */
         body {
             margin: 0;
             font-family: 'Poppins', sans-serif;
             overflow-x: hidden;
             position: relative;
             z-index: 0;
-        }
 
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 200%;
-            height: 200%;
-            background: url('galaxy.jpg') repeat;
+            /* GIF background */
+            background: url('galaxy.gif') no-repeat center center fixed;
             background-size: cover;
-            z-index: -1;
-            animation: moveGalaxy 60s linear infinite;
-        }
-
-        @keyframes moveGalaxy {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(-50%, -50%); }
         }
 
         /* Header */
@@ -135,8 +121,8 @@
 <div class="circle-container">
 
     <a class="circle" href="page1.html">
-        <img src="img1.jpg" class="default-img" alt="Page 1">
-        <img src="img1-hover.jpg" class="hover-img" alt="Page 1 Hover">
+        <img src="images/img1.jpg" class="default-img" alt="Page 1">
+        <img src="images/img1-hover.jpg" class="hover-img" alt="Page 1 Hover">
     </a>
 
     <a class="circle" href="page2.html">
