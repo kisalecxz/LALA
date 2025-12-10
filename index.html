@@ -3,147 +3,153 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shining Star Navigation</title>
+<title>Animated Star Navigation</title>
+
 <style>
-    /* Body + galaxy background */
-    body {
-        margin: 0;
-        font-family: 'Poppins', sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        background: url('Images/galaxy.gif') no-repeat center center fixed;
-        background-size: cover;
-        overflow-x: hidden;
-        position: relative;
-    }
+/* Body + GIF background */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+    background: url('Images/galaxy.gif') no-repeat center center fixed;
+    background-size: cover;
+}
 
-    header {
-        position: absolute;
-        top: 20px;
-        width: 100%;
-        text-align: center;
-        font-size: 2.8rem;
-        font-weight: 700;
-        color: white;
-        text-shadow: 0 3px 6px rgba(0,0,0,0.25);
-        backdrop-filter: blur(6px);
-        z-index: 10;
-    }
+/* Header */
+header {
+    text-align: center;
+    padding: 25px 10px;
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: white;
+    text-shadow: 0 3px 6px rgba(0,0,0,0.25);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(10px);
+}
 
-    .star-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        gap: 50px;
-    }
+/* Center container */
+.star-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 60px;
+    gap: 40px;
+}
 
-    /* Star shape using clip-path (4-point star / diamond) */
-    .star {
-        width: 260px;
-        height: 260px;
-        position: relative;
-        cursor: pointer;
-        overflow: hidden;
-        clip-path: path("M50 0 C65 15, 65 35, 50 50 C35 65, 35 85, 50 100 C65 85, 65 65, 50 50 C35 35, 35 15, 50 0 Z");
-        animation: float 3s ease-in-out infinite, pulse 2.5s ease-in-out infinite, rotateStar 15s linear infinite;
-        box-shadow: 0 0 20px rgba(255,255,255,0.6), 0 0 40px rgba(255,255,255,0.3);
-        transition: transform 0.35s ease, box-shadow 0.35s ease, filter 0.35s ease;
-        background: radial-gradient(circle at 30% 30%, #fff, rgba(255,255,255,0.2) 70%);
-    }
+/* Star wrapper */
+.star {
+    width: 220px;
+    height: 220px;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
 
-    /* Star images */
-    .star img.default-img,
-    .star img.hover-img {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: opacity 0.45s ease, transform 0.45s ease;
-    }
+/* Spin animation for star shape only */
+.star-shape {
+    width: 100%;
+    height: 100%;
+    clip-path: polygon(
+        50% 0%, 60% 20%, 80% 25%, 70% 45%, 
+        85% 65%, 60% 60%, 50% 80%, 40% 60%, 
+        15% 65%, 30% 45%, 20% 25%, 40% 20%
+    );
+    background: radial-gradient(circle at center, #fff, #f1c40f);
+    position: absolute;
+    top: 0; left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: spin 12s linear infinite;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.5), 0 0 50px rgba(241, 196, 15, 0.7);
+}
 
-    .star img.hover-img { opacity: 0; transform: scale(0.9); }
+/* Additional spikes on corners using pseudo-elements */
+.star-shape::before,
+.star-shape::after {
+    content: '';
+    position: absolute;
+    width: 30%;
+    height: 30%;
+    background: radial-gradient(circle, #fff, #f1c40f);
+    border-radius: 50%;
+}
 
-    .star:hover img.default-img { opacity: 0; transform: scale(1.1); }
-    .star:hover img.hover-img { opacity: 1; transform: scale(1); }
+.star-shape::before {
+    top: -15%;
+    left: -15%;
+}
 
-    /* Hover glow */
-    .star:hover {
-        transform: scale(1.2) rotate(8deg);
-        filter: brightness(1.3) drop-shadow(0 0 25px #fff);
-        box-shadow: 0 0 40px rgba(255,255,255,0.8), 0 0 60px rgba(255,255,255,0.5);
-    }
+.star-shape::after {
+    bottom: -15%;
+    right: -15%;
+}
 
-    /* Floating + pulse animations */
-    @keyframes float {
-        0% { transform: translateY(0); }
-        50% { transform: translateY(-20px); }
-        100% { transform: translateY(0); }
-    }
+/* Image inside star (static) */
+.star img {
+    width: 60%;
+    height: 60%;
+    object-fit: cover;
+    border-radius: 50%;
+    position: relative; /* stays on top of spinning star */
+    z-index: 10;
+    transition: transform 0.35s ease, filter 0.35s ease;
+}
 
-    @keyframes pulse {
-        0% { box-shadow: 0 0 20px rgba(255,255,255,0.5); }
-        50% { box-shadow: 0 0 40px rgba(255,255,255,0.8); }
-        100% { box-shadow: 0 0 20px rgba(255,255,255,0.5); }
-    }
+/* Hover effect on star */
+.star:hover img {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+}
 
-    @keyframes rotateStar {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
+/* Spinning keyframes */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 
-    /* Responsive */
-    @media (max-width: 900px) { .star { width: 180px; height: 180px; } header { font-size: 2.2rem; } }
-    @media (max-width: 500px) { .star { width: 140px; height: 140px; } header { font-size: 2rem; } }
+/* Responsive */
+@media (max-width: 700px) {
+    .star { width: 150px; height: 150px; }
+    header { font-size: 2.2rem; }
+}
+
+@media (max-width: 450px) {
+    .star { width: 120px; height: 120px; }
+    header { font-size: 2rem; }
+}
 </style>
 </head>
 <body>
 
-<header>Shining Star Navigation</header>
+<header>Galaxy Stars Navigation</header>
 
 <div class="star-container">
 
     <a class="star" href="page1.html">
-        <img src="Images/img1.jpg" class="default-img" alt="Page 1">
-        <img src="Images/img1-hover.jpg" class="hover-img" alt="Page 1 Hover">
+        <div class="star-shape"></div>
+        <img src="Images/img1.jpg" alt="Page 1">
     </a>
 
     <a class="star" href="page2.html">
-        <img src="Images/img2.jpg" class="default-img" alt="Page 2">
-        <img src="Images/img2-hover.jpg" class="hover-img" alt="Page 2 Hover">
+        <div class="star-shape"></div>
+        <img src="Images/img2.jpg" alt="Page 2">
     </a>
 
     <a class="star" href="page3.html">
-        <img src="Images/img3.jpg" class="default-img" alt="Page 3">
-        <img src="Images/img3-hover.jpg" class="hover-img" alt="Page 3 Hover">
+        <div class="star-shape"></div>
+        <img src="Images/img3.jpg" alt="Page 3">
     </a>
 
     <a class="star" href="page4.html">
-        <img src="Images/img4.jpg" class="default-img" alt="Page 4">
-        <img src="Images/img4-hover.jpg" class="hover-img" alt="Page 4 Hover">
+        <div class="star-shape"></div>
+        <img src="Images/img4.jpg" alt="Page 4">
     </a>
 
 </div>
-
-<!-- Mobile tap hover fallback -->
-<script>
-document.querySelectorAll('.star').forEach(star => {
-    star.addEventListener('click', function(e) {
-        const defaultImg = star.querySelector('.default-img');
-        const hoverImg = star.querySelector('.hover-img');
-
-        if (defaultImg.style.opacity !== "0") {
-            defaultImg.style.opacity = "0";
-            hoverImg.style.opacity = "1";
-        } else {
-            defaultImg.style.opacity = "1";
-            hoverImg.style.opacity = "0";
-        }
-    });
-});
-</script>
 
 </body>
 </html>
