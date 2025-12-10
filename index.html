@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animated Circle Navigation</title>
+    <title>Glassmorphism Circles Website</title>
 
     <style>
         body {
             margin: 0;
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #9be7ff, #e5b3ff);
+            background: linear-gradient(135deg, #8ec5fc, #e0c3fc);
             overflow-x: hidden;
         }
 
@@ -26,15 +26,29 @@
             backdrop-filter: blur(10px);
         }
 
+        /* GLASS CONTAINER */
+        .glass-card {
+            width: 90%;
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 40px 20px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(255,255,255,0.35);
+        }
+
+        /* Circle layout */
         .circle-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            margin-top: 50px;
+            gap: 35px;
             padding: 20px;
-            gap: 30px;
         }
 
+        /* Animated Circles */
         .circle {
             width: 160px;
             height: 160px;
@@ -47,14 +61,16 @@
             font-size: 1.4rem;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
             text-decoration: none;
+
+            /* Effects */
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
             animation: float 3s ease-in-out infinite, pulse 2.5s ease-in-out infinite;
             transition: transform 0.25s ease;
         }
 
         .circle:hover {
-            transform: scale(1.12);
+            transform: scale(1.15);
         }
 
         /* Floating animation */
@@ -64,14 +80,14 @@
             100% { transform: translateY(0); }
         }
 
-        /* Soft pulsing glow */
+        /* Glow pulse animation */
         @keyframes pulse {
             0% { box-shadow: 0 8px 20px rgba(59,130,246,0.4); }
             50% { box-shadow: 0 12px 30px rgba(59,130,246,0.8); }
             100% { box-shadow: 0 8px 20px rgba(59,130,246,0.4); }
         }
 
-        /* Page styling */
+        /* Pages */
         .page {
             display: none;
             padding: 40px 20px;
@@ -89,32 +105,39 @@
             to { opacity: 1; }
         }
 
+        /* Glass Back Button */
         .back-btn {
             margin-top: 25px;
             display: inline-block;
             padding: 12px 25px;
-            background: rgba(255,255,255,0.25);
-            border-radius: 8px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
             color: white;
             font-size: 1.1rem;
             text-decoration: none;
-            backdrop-filter: blur(6px);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.35);
             transition: 0.3s;
         }
 
         .back-btn:hover {
-            background: rgba(255,255,255,0.4);
+            background: rgba(255,255,255,0.35);
         }
 
-        /* Mobile responsiveness */
+        /* Mobile responsive */
         @media (max-width: 600px) {
             header {
                 font-size: 2rem;
             }
+
             .circle {
                 width: 130px;
                 height: 130px;
-                font-size: 1.2rem;
+                font-size: 1.1rem;
+            }
+
+            .glass-card {
+                padding: 30px 15px;
             }
         }
     </style>
@@ -134,16 +157,23 @@
 </head>
 <body>
 
-<header>My Animated Website</header>
+<header>My Glassmorphism Website</header>
 
-<!-- HOME PAGE -->
+<!-- HOME -->
 <div id="home" class="page active">
-    <div class="circle-container">
-        <a class="circle" onclick="showPage('page1')">Page 1</a>
-        <a class="circle" onclick="showPage('page2')">Page 2</a>
-        <a class="circle" onclick="showPage('page3')">Page 3</a>
-        <a class="circle" onclick="showPage('page4')">Page 4</a>
+
+    <!-- GLASS CARD WRAPPER -->
+    <div class="glass-card">
+
+        <div class="circle-container">
+            <a class="circle" onclick="showPage('page1')">Page 1</a>
+            <a class="circle" onclick="showPage('page2')">Page 2</a>
+            <a class="circle" onclick="showPage('page3')">Page 3</a>
+            <a class="circle" onclick="showPage('page4')">Page 4</a>
+        </div>
+
     </div>
+
 </div>
 
 <!-- OTHER PAGES -->
