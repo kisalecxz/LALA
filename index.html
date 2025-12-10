@@ -79,6 +79,12 @@
             
             animation: glowPulse 4s ease-in-out infinite;
         }
+        
+        @keyframes shimmer {
+    0% { opacity: .15; }
+    50% { opacity: .35; }
+    100% { opacity: .15; }
+}
 
         /* Pulsing aura */
         @keyframes glowPulse {
@@ -115,6 +121,20 @@
 
             transition: opacity 0.45s ease;
         }
+        
+        .circle::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        130deg,
+        rgba(255,255,255,0.35),
+        rgba(255,255,255,0) 60%
+    );
+    mix-blend-mode: screen;
+    opacity: .18;
+    animation: shimmer 4s infinite ease-in-out;
+    }
 
         .circle img.hover-img {
             opacity: 0;
