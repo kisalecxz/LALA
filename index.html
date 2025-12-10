@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shining Stars Navigation</title>
+<title>Shining Star Navigation</title>
 <style>
     /* Body + galaxy background */
     body {
@@ -40,19 +40,15 @@
         gap: 50px;
     }
 
-    /* Star shape (circle + shine) */
+    /* Star shape using clip-path (4-point star / diamond) */
     .star {
         width: 260px;
         height: 260px;
-        border-radius: 50%;
         position: relative;
         cursor: pointer;
         overflow: hidden;
-
-        /* Floating & shimmer animation */
+        clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
         animation: float 3s ease-in-out infinite, pulse 2.5s ease-in-out infinite, rotateStar 15s linear infinite;
-
-        /* Glowing effect */
         box-shadow: 0 0 20px rgba(255,255,255,0.6), 0 0 40px rgba(255,255,255,0.3);
         transition: transform 0.35s ease, box-shadow 0.35s ease, filter 0.35s ease;
         background: radial-gradient(circle at 30% 30%, #fff, rgba(255,255,255,0.2) 70%);
@@ -65,9 +61,9 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        border-radius: 50%;
         transition: opacity 0.45s ease, transform 0.45s ease;
     }
+
     .star img.hover-img { opacity: 0; transform: scale(0.9); }
 
     .star:hover img.default-img { opacity: 0; transform: scale(1.1); }
@@ -80,7 +76,7 @@
         box-shadow: 0 0 40px rgba(255,255,255,0.8), 0 0 60px rgba(255,255,255,0.5);
     }
 
-    /* Floating animation */
+    /* Floating + pulse animations */
     @keyframes float {
         0% { transform: translateY(0); }
         50% { transform: translateY(-20px); }
@@ -105,7 +101,7 @@
 </head>
 <body>
 
-<header>Shining Stars Navigation</header>
+<header>Shining Star Navigation</header>
 
 <div class="star-container">
 
