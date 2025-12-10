@@ -1,41 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Page 1</title>
+    <title>Page 1</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #89f7fe, #66a6ff);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+        }
 
-<style>
-    body {
-        margin: 0;
-        font-family: Poppins, sans-serif;
-        background: linear-gradient(135deg, #8ec5fc, #e0c3fc);
-        color: white;
-        text-align: center;
-        padding: 40px 20px;
-    }
+        .card {
+            margin: auto;
+            max-width: 700px;
+            padding: 30px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(12px);
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+        }
 
-    a.back-btn {
-        margin-top: 25px;
-        display: inline-block;
-        padding: 12px 25px;
-        background: rgba(255,255,255,0.2);
-        border-radius: 10px;
-        color: white;
-        font-size: 1.2rem;
-        text-decoration: none;
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255,255,255,0.35);
-    }
-</style>
+        .back {
+            margin-top: 25px;
+            display: inline-block;
+            padding: 12px 25px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: .3s;
+        }
 
+        .back:hover {
+            background: rgba(255,255,255,0.4);
+        }
+    </style>
 </head>
 <body>
 
 <h1>Page 1</h1>
-<p>Welcome to page one!</p>
 
-<a class="back-btn" href="index.html">Back Home</a>
+<div class="card">
+    <p>Welcome to Page 1!  
+    You can put text, images, videos, or anything here.</p>
+</div>
+
+<a href="index.html" class="back">⟵ Back to Home</a>
 
 </body>
 </html>
