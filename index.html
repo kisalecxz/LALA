@@ -3,62 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Simple Website</title>
+    <title>Floating Circles Website</title>
+
     <style>
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
-            background: #f5f5f5;
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+            overflow-x: hidden;
         }
+
         header {
+            text-align: center;
+            padding: 20px 10px;
+            font-size: 2rem;
+            font-weight: bold;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .circle-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 40px;
+            padding: 20px;
+        }
+
+        .circle {
+            width: 120px;
+            height: 120px;
+            background: #4CAF50;
+            border-radius: 50%;
+            margin: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .circle:nth-child(2) { animation-delay: .4s; }
+        .circle:nth-child(3) { animation-delay: .8s; }
+        .circle:nth-child(4) { animation-delay: 1.2s; }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0); }
+        }
+
+        .circle:hover {
+            transform: scale(1.1);
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 600px) {
+            .circle {
+                width: 90px;
+                height: 90px;
+                font-size: 1rem;
+                margin: 15px;
+            }
+
+            header {
+                font-size: 1.6rem;
+            }
+        }
+
+        /* Simple secondary pages */
+        .page {
+            display: none;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .active {
+            display: block;
+        }
+
+        .back-btn {
+            margin-top: 20px;
+            display: inline-block;
+            padding: 10px 20px;
             background: #4CAF50;
             color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        nav {
-            background: #333;
-            padding: 10px;
-        }
-        nav a {
-            color: white;
-            margin: 0 15px;
+            border-radius: 5px;
             text-decoration: none;
         }
-        .container {
-            padding: 20px;
-        }
-        footer {
-            background: #222;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            margin-top: 30px;
-        }
     </style>
+
+    <script>
+        function showPage(page) {
+            document.getElementById("home").classList.remove("active");
+            document.getElementById(page).classList.add("active");
+        }
+
+        function goHome() {
+            document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+            document.getElementById("home").classList.add("active");
+        }
+    </script>
+
 </head>
 <body>
 
-<header>
-    <h1>Welcome to My Simple Website</h1>
-</header>
+<header>My Website</header>
 
-<nav>
-    <a href="#">Home</a>
-    <a href="#">About</a>
-    <a href="#">Contact</a>
-</nav>
-
-<div class="container">
-    <h2>Hello!</h2>
-    <p>This is a basic HTML website template. You can edit the text, add images, and customize the layout however you like.</p>
+<!-- HOME PAGE -->
+<div id="home" class="page active">
+    <div class="circle-container">
+        <a class="circle" onclick="showPage('page1')">Page 1</a>
+        <a class="circle" onclick="showPage('page2')">Page 2</a>
+        <a class="circle" onclick="showPage('page3')">Page 3</a>
+        <a class="circle" onclick="showPage('page4')">Page 4</a>
+    </div>
 </div>
 
-<footer>
-    <p>© 2025 My Simple Website</p>
-</footer>
+<!-- OTHER PAGES -->
+<div id="page1" class="page">
+    <h2>Page 1</h2>
+    <p>Welcome to page one!</p>
+    <a class="back-btn" onclick="goHome()">Back</a>
+</div>
+
+<div id="page2" class="page">
+    <h2>Page 2</h2>
+    <p>This is the second page.</p>
+    <a class="back-btn" onclick="goHome()">Back</a>
+</div>
+
+<div id="page3" class="page">
+    <h2>Page 3</h2>
+    <p>Here is page three.</p>
+    <a class="back-btn" onclick="goHome()">Back</a>
+</div>
+
+<div id="page4" class="page">
+    <h2>Page 4</h2>
+    <p>And this is page four.</p>
+    <a class="back-btn" onclick="goHome()">Back</a>
+</div>
 
 </body>
 </html>
-
