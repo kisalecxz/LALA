@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glassmorphism Circles Website</title>
+    <title>Responsive Animated Circles</title>
 
     <style>
         body {
@@ -26,11 +26,11 @@
             backdrop-filter: blur(10px);
         }
 
-        /* GLASS CONTAINER */
+        /* Glass panel */
         .glass-card {
-            width: 90%;
-            max-width: 900px;
-            margin: 60px auto;
+            width: 95%;
+            max-width: 1000px;
+            margin: 50px auto;
             padding: 40px 20px;
             background: rgba(255,255,255,0.15);
             border-radius: 25px;
@@ -39,52 +39,59 @@
             border: 1px solid rgba(255,255,255,0.35);
         }
 
-        /* Circle layout */
+        /* Circles layout — auto-fit across the page */
         .circle-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 35px;
-            padding: 20px;
+            gap: 30px;
         }
 
-        /* Animated Circles */
+        /* Circles */
         .circle {
-            width: 160px;
-            height: 160px;
+            flex: 1 1 calc(50% - 50px);  /* Auto-fit into two columns */
+            max-width: 220px;
+            aspect-ratio: 1 / 1;
+
             background: radial-gradient(circle at top left, #6ee7b7, #3b82f6);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
+
             color: white;
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 600;
+
             cursor: pointer;
             text-decoration: none;
 
-            /* Effects */
-            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-            animation: float 3s ease-in-out infinite, pulse 2.5s ease-in-out infinite;
-            transition: transform 0.25s ease;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+
+            animation: float 3s ease-in-out infinite, pulse 2.8s infinite ease-in-out;
+            transition: transform .35s ease, box-shadow .35s ease;
         }
 
+        /* Hover Animation */
         .circle:hover {
-            transform: scale(1.15);
+            transform: scale(1.15) rotate(6deg);
+            box-shadow: 0 15px 40px rgba(59,130,246,0.9),
+                        0 0 20px rgba(255,255,255,0.7);
+            animation-play-state: paused; /* Pause floating animation on hover */
         }
 
         /* Floating animation */
         @keyframes float {
             0% { transform: translateY(0); }
-            50% { transform: translateY(-18px); }
+            50% { transform: translateY(-14px); }
             100% { transform: translateY(0); }
         }
 
-        /* Glow pulse animation */
+        /* Glow pulse */
         @keyframes pulse {
-            0% { box-shadow: 0 8px 20px rgba(59,130,246,0.4); }
-            50% { box-shadow: 0 12px 30px rgba(59,130,246,0.8); }
-            100% { box-shadow: 0 8px 20px rgba(59,130,246,0.4); }
+            0% { box-shadow: 0 10px 25px rgba(59,130,246,0.4); }
+            50% { box-shadow: 0 14px 35px rgba(59,130,246,0.8); }
+            100% { box-shadow: 0 10px 25px rgba(59,130,246,0.4); }
         }
 
         /* Pages */
@@ -93,19 +100,17 @@
             padding: 40px 20px;
             text-align: center;
             color: white;
-            animation: fadeIn 0.5s ease;
+            animation: fadeIn .5s ease;
         }
 
-        .active {
-            display: block;
-        }
+        .active { display: block; }
 
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
 
-        /* Glass Back Button */
+        /* Glass back button */
         .back-btn {
             margin-top: 25px;
             display: inline-block;
@@ -113,31 +118,27 @@
             background: rgba(255,255,255,0.2);
             border-radius: 10px;
             color: white;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             text-decoration: none;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.35);
-            transition: 0.3s;
+            transition: .3s;
         }
 
         .back-btn:hover {
             background: rgba(255,255,255,0.35);
         }
 
-        /* Mobile responsive */
+        /* Mobile adjustments */
         @media (max-width: 600px) {
+            .circle {
+                flex: 1 1 calc(100% - 20px); /* 1 per row on phones */
+                max-width: 260px;
+                font-size: 1.3rem;
+            }
+
             header {
                 font-size: 2rem;
-            }
-
-            .circle {
-                width: 130px;
-                height: 130px;
-                font-size: 1.1rem;
-            }
-
-            .glass-card {
-                padding: 30px 15px;
             }
         }
     </style>
@@ -157,12 +158,10 @@
 </head>
 <body>
 
-<header>My Glassmorphism Website</header>
+<header>My Animated Website</header>
 
-<!-- HOME -->
+<!-- HOME PAGE -->
 <div id="home" class="page active">
-
-    <!-- GLASS CARD WRAPPER -->
     <div class="glass-card">
 
         <div class="circle-container">
@@ -173,10 +172,9 @@
         </div>
 
     </div>
-
 </div>
 
-<!-- OTHER PAGES -->
+<!-- PAGES -->
 <div id="page1" class="page">
     <h2>Page 1</h2>
     <p>Welcome to page one!</p>
