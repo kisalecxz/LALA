@@ -62,6 +62,7 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.25);
         }
 
+        /* Circle images */
         .circle img.default-img,
         .circle img.hover-img {
             position: absolute;
@@ -126,21 +127,40 @@
     </a>
 
     <a class="circle" href="page2.html">
-        <img src="img2.jpg" class="default-img" alt="Page 2">
-        <img src="img2-hover.jpg" class="hover-img" alt="Page 2 Hover">
+        <img src="Images/img2.jpg" class="default-img" alt="Page 2">
+        <img src="Images/img2-hover.jpg" class="hover-img" alt="Page 2 Hover">
     </a>
 
     <a class="circle" href="page3.html">
-        <img src="img3.jpg" class="default-img" alt="Page 3">
-        <img src="img3-hover.jpg" class="hover-img" alt="Page 3 Hover">
+        <img src="Images/img3.jpg" class="default-img" alt="Page 3">
+        <img src="Images/img3-hover.jpg" class="hover-img" alt="Page 3 Hover">
     </a>
 
     <a class="circle" href="page4.html">
-        <img src="img4.jpg" class="default-img" alt="Page 4">
-        <img src="img4-hover.jpg" class="hover-img" alt="Page 4 Hover">
+        <img src="Images/img4.jpg" class="default-img" alt="Page 4">
+        <img src="Images/img4-hover.jpg" class="hover-img" alt="Page 4 Hover">
     </a>
 
 </div>
+
+<!-- JS for mobile tap hover -->
+<script>
+document.querySelectorAll('.circle').forEach(circle => {
+    circle.addEventListener('click', function(e) {
+        // Only toggle images if the user taps the circle
+        const defaultImg = circle.querySelector('.default-img');
+        const hoverImg = circle.querySelector('.hover-img');
+
+        if (defaultImg.style.opacity !== "0") {
+            defaultImg.style.opacity = "0";
+            hoverImg.style.opacity = "1";
+        } else {
+            defaultImg.style.opacity = "1";
+            hoverImg.style.opacity = "0";
+        }
+    });
+});
+</script>
 
 </body>
 </html>
