@@ -13,22 +13,35 @@ body {
     overflow-x: hidden;
     background: url('Images/galaxy.gif') no-repeat center center fixed;
     background-size: cover;
-    position: relative;
-    z-index: 0;
+    
+    /* Center content vertically and horizontally */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
-/* ---------------- Header ---------------- */
+/* ---------------- Header / Title ---------------- */
 header {
     text-align: center;
-    padding: 25px 10px;
-    font-size: 2.8rem;
-    font-weight: 700;
-    color: white;
-    text-shadow: 0 3px 6px rgba(0,0,0,0.25);
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    backdrop-filter: blur(10px);
+    font-size: 3rem;
+    font-weight: 800;
+    color: #ffffff;
+    text-shadow:
+        0 0 8px #80a2ff,
+        0 0 15px #4b6fcf,
+        0 0 25px #ffffff,
+        0 0 35px #80a2ff;
+    margin-bottom: 40px;
+    letter-spacing: 2px;
+    animation: titleGlow 3s ease-in-out infinite alternate;
+}
+
+/* Animated glowing title */
+@keyframes titleGlow {
+    0% { text-shadow: 0 0 5px #80a2ff, 0 0 10px #4b6fcf, 0 0 20px #ffffff; }
+    100% { text-shadow: 0 0 15px #80a2ff, 0 0 25px #4b6fcf, 0 0 35px #ffffff, 0 0 50px #80a2ff; }
 }
 
 /* ---------------- Star Container ---------------- */
@@ -37,8 +50,6 @@ header {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    margin-top: 40px;
-    padding: 20px;
     gap: 35px;
     position: relative;
 }
@@ -51,7 +62,7 @@ header {
     overflow: hidden;
     cursor: pointer;
 
-    /* 8-point star with sharper edges */
+    /* 8-point star shape with sharp edges */
     clip-path: polygon(
         50% 0%,
         70% 25%,
@@ -105,7 +116,7 @@ header {
         0 0 60px rgba(80,130,255,0.3);
 }
 
-/* ---------------- Rim Highlight & Particle Spark Overlay ---------------- */
+/* ---------------- Rim Highlight + Spark Overlay ---------------- */
 .circle::before {
     content: "";
     position: absolute;
@@ -192,14 +203,14 @@ header {
 
 @media (max-width: 450px) {
     .circle { width: 180px; height: 180px; }
-    header { font-size: 2rem; }
+    header { font-size: 1.8rem; }
 }
 </style>
 </head>
 
 <body>
 
-<header>My Animated Website</header>
+<header>✨ My Animated Website ✨</header>
 
 <div class="circle-container">
 
