@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Animated Circles</title>
+    <title>Animated Circle Navigation</title>
 
     <style>
         body {
             margin: 0;
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #8ec5fc, #e0c3fc);
+            background: linear-gradient(135deg, #9be7ff, #e5b3ff);
             overflow-x: hidden;
         }
 
@@ -26,33 +26,20 @@
             backdrop-filter: blur(10px);
         }
 
-        /* Glass panel */
-        .glass-card {
-            width: 95%;
-            max-width: 1000px;
-            margin: 50px auto;
-            padding: 40px 20px;
-            background: rgba(255,255,255,0.15);
-            border-radius: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-            backdrop-filter: blur(18px);
-            border: 1px solid rgba(255,255,255,0.35);
-        }
-
-        /* Circles layout — auto-fit across the page */
+        /* Centered + responsive circles */
         .circle-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
+            align-items: center;    /* centers vertically on large screens */
+            margin-top: 40px;
+            padding: 20px;
             gap: 30px;
         }
 
-        /* Circles */
         .circle {
-            flex: 1 1 calc(50% - 50px);  /* Auto-fit into two columns */
-            max-width: 220px;
-            aspect-ratio: 1 / 1;
-
+            width: 180px;
+            height: 180px;
             background: radial-gradient(circle at top left, #6ee7b7, #3b82f6);
             border-radius: 50%;
             display: flex;
@@ -60,81 +47,96 @@
             align-items: center;
 
             color: white;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 600;
 
             cursor: pointer;
             text-decoration: none;
 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+            /* base animation */
+            animation: float 3s ease-in-out infinite, pulse 2.5s ease-in-out infinite;
 
-            animation: float 3s ease-in-out infinite, pulse 2.8s infinite ease-in-out;
-            transition: transform .35s ease, box-shadow .35s ease;
+            /* Hover transition */
+            transition: 
+                transform .35s ease,
+                box-shadow .35s ease,
+                filter .35s ease;
+            
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
         }
 
-        /* Hover Animation */
+        /* ✨ HOVER ANIMATION — bigger, glowing, slight rotation */
         .circle:hover {
-            transform: scale(1.15) rotate(6deg);
-            box-shadow: 0 15px 40px rgba(59,130,246,0.9),
-                        0 0 20px rgba(255,255,255,0.7);
-            animation-play-state: paused; /* Pause floating animation on hover */
+            transform: scale(1.18) rotate(6deg);
+            filter: brightness(1.2);
+            box-shadow: 
+                0 18px 40px rgba(59,130,246,0.7),
+                0 0 25px rgba(255,255,255,0.8);
         }
 
         /* Floating animation */
         @keyframes float {
             0% { transform: translateY(0); }
-            50% { transform: translateY(-14px); }
+            50% { transform: translateY(-18px); }
             100% { transform: translateY(0); }
         }
 
-        /* Glow pulse */
+        /* Soft pulsing glow */
         @keyframes pulse {
-            0% { box-shadow: 0 10px 25px rgba(59,130,246,0.4); }
-            50% { box-shadow: 0 14px 35px rgba(59,130,246,0.8); }
-            100% { box-shadow: 0 10px 25px rgba(59,130,246,0.4); }
+            0% { box-shadow: 0 8px 20px rgba(59,130,246,0.3); }
+            50% { box-shadow: 0 12px 30px rgba(59,130,246,0.7); }
+            100% { box-shadow: 0 8px 20px rgba(59,130,246,0.3); }
         }
 
-        /* Pages */
+        /* Page styling */
         .page {
             display: none;
             padding: 40px 20px;
             text-align: center;
             color: white;
-            animation: fadeIn .5s ease;
+            animation: fadeIn 0.5s ease;
         }
 
-        .active { display: block; }
+        .active {
+            display: block;
+        }
 
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
 
-        /* Glass back button */
         .back-btn {
             margin-top: 25px;
             display: inline-block;
             padding: 12px 25px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 10px;
+            background: rgba(255,255,255,0.25);
+            border-radius: 8px;
             color: white;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             text-decoration: none;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.35);
-            transition: .3s;
+            backdrop-filter: blur(6px);
+            transition: 0.3s;
         }
 
         .back-btn:hover {
-            background: rgba(255,255,255,0.35);
+            background: rgba(255,255,255,0.4);
         }
 
-        /* Mobile adjustments */
-        @media (max-width: 600px) {
+        /* 📱 Mobile-friendly adjustments */
+        @media (max-width: 800px) {
             .circle {
-                flex: 1 1 calc(100% - 20px); /* 1 per row on phones */
-                max-width: 260px;
-                font-size: 1.3rem;
+                width: 150px;
+                height: 150px;
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .circle {
+                width: 130px;
+                height: 130px;
+                font-size: 1rem;
             }
 
             header {
@@ -162,20 +164,16 @@
 
 <!-- HOME PAGE -->
 <div id="home" class="page active">
-    <div class="glass-card">
-
-        <div class="circle-container">
-            <a class="circle" href="page1.html">Page 1</a>
-            <a class="circle" href="page2.html">Page 2</a>
-            <a class="circle" href="page3.html">Page 3</a>
-            <a class="circle" href="page4.html">Page 4</a>
-
-        </div>
+    <div class="circle-container">
+        <a class="circle" href="page1.html">Page 1</a>
+        <a class="circle" href="page2.html">Page 2</a>
+        <a class="circle" href="page3.html">Page 3</a>
+        <a class="circle" href="page4.html">Page 4</a>
 
     </div>
 </div>
 
-<!-- PAGES -->
+<!-- OTHER PAGES -->
 <div id="page1" class="page">
     <h2>Page 1</h2>
     <p>Welcome to page one!</p>
