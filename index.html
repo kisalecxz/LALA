@@ -21,7 +21,12 @@
     .star-wrapper {
         position: relative;
         animation: float 4s ease-in-out infinite;
-        filter: drop-shadow(0 0 25px #fff) drop-shadow(0 0 45px #7abaff);
+
+        /* ORIGINAL filters kept, only enhanced */
+        filter:
+            drop-shadow(0 0 35px #fff)
+            drop-shadow(0 0 70px #a9cfff)
+            drop-shadow(0 0 110px #e6f3ff);
     }
 
     /* The star image */
@@ -30,28 +35,40 @@
         opacity: 0.95;
         animation: soft-move 6s ease-in-out infinite;
         transition: 0.4s ease;
+
+        /* Slight feather on edges */
+        filter: blur(0.8px);
     }
 
-    /* Extra soft glow around the edges */
+    /* EXTRA soft glow around the edges (enhanced, nothing removed) */
     .star-wrapper::before {
         content: "";
         position: absolute;
-        inset: -30px;
+        inset: -45px; /* softer + more spread */
         border-radius: 50%;
-        background: radial-gradient(circle, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0) 70%);
-        filter: blur(40px);
+        background: radial-gradient(
+            circle,
+            rgba(255,255,255,0.38) 0%,
+            rgba(255,255,255,0.15) 40%,
+            rgba(255,255,255,0) 90%
+        );
+        filter: blur(65px); /* softer glow */
         animation: glowPulse 5s ease-in-out infinite;
         pointer-events: none;
     }
 
-    /* Hover effect */
+    /* Hover effect (kept and enhanced) */
     .star-wrapper:hover {
-        filter: drop-shadow(0 0 45px #fff) drop-shadow(0 0 85px #9ccaff);
+        filter:
+            drop-shadow(0 0 55px #fff)
+            drop-shadow(0 0 110px #c9e4ff)
+            drop-shadow(0 0 160px #ffffff);
     }
 
     .star-wrapper:hover .star {
         opacity: 1;
         transform: scale(1.05);
+        filter: blur(0.5px);
     }
 
     /* Floating animation */
@@ -71,7 +88,7 @@
     /* Pulsing edge glow */
     @keyframes glowPulse {
         0% { opacity: 0.35; }
-        50% { opacity: 0.6; }
+        50% { opacity: 0.75; } /* brighter pulse */
         100% { opacity: 0.35; }
     }
 </style>
