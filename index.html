@@ -1,258 +1,227 @@
-F<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Animated Star Navigation</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Will You Be My Valentine?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
 
-<style>
-/* ---------------- Body + Galaxy Background ---------------- */
-body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    overflow-x: hidden;
-    background: url('Images/galaxy.gif') no-repeat center center fixed;
-    background-size: cover;
-    
-    /* Center content vertically and horizontally */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-}
+    body {
+      margin: 0;
+      height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      overflow: hidden;
+      color: #fff;
+    }
 
-/* ---------------- Header / Title ---------------- */
-header {
-    text-align: center;
-    font-size: 3rem;
-    font-weight: 800;
-    color: #ffffff;
-    text-shadow:
-        0 0 8px #80a2ff,
-        0 0 15px #4b6fcf,
-        0 0 25px #ffffff,
-        0 0 35px #80a2ff;
-    margin-bottom: 90px;
-    letter-spacing: 2px;
-    animation: titleGlow 3s ease-in-out infinite alternate;
-}
+    /* Floating hearts */
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      transform: rotate(45deg);
+      animation: float 8s linear infinite;
+      opacity: 0.7;
+    }
 
-/* Animated glowing title */
-@keyframes titleGlow {
-    0% { text-shadow: 0 0 5px #80a2ff, 0 0 10px #4b6fcf, 0 0 20px #ffffff; }
-    100% { text-shadow: 0 0 15px #80a2ff, 0 0 25px #4b6fcf, 0 0 35px #ffffff, 0 0 50px #80a2ff; }
-}
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      border-radius: 50%;
+    }
 
-/* ---------------- Star Container ---------------- */
-.circle-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 35px;
-    position: relative;
-}
+    .heart::before { left: -10px; }
+    .heart::after { top: -10px; }
 
-/* ---------------- Star Buttons ---------------- */
-.circle {
-    width: 350px;
-    height: 350px;
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
+    @keyframes float {
+      0% { transform: translateY(100vh) rotate(45deg); }
+      100% { transform: translateY(-10vh) rotate(45deg); }
+    }
 
-    /* 8-point star shape with sharp edges */
-    clip-path: polygon(
-        50% 0%,
-        70% 25%,
-        100% 30%,
-        80% 50%,
-        100% 70%,
-        70% 75%,
-        50% 100%,
-        30% 75%,
-        0% 70%,
-        20% 50%,
-        0% 30%,
-        30% 25%
-    );
+    /* Pages */
+    .page {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 16px;
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
 
-    transition: transform .35s ease,
-                box-shadow .35s ease,
-                filter .35s ease;
+    .hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.95);
+    }
 
-    /* Multi-layered cosmic glow */
-    box-shadow:
-        0 0 20px rgba(255,255,255,0.35),
-        0 0 60px rgba(80,130,255,0.45),
-        0 0 100px rgba(120,180,255,0.25),
-        0 0 140px rgba(200,220,255,0.15);
+    #page1 { background: #ffffff; color: #333; }
 
-    animation: floatRotate 8s ease-in-out infinite;
-    z-index: 2;
-}
+    /* Page 2 text design */
+    #word {
+      font-size: 3rem;
+      min-height: 3.5rem;
+      margin-top: 140px;
+      font-weight: 700;
+      color: #ff2f5b;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.3), 0 0 10px #fff;
+      animation: pulse 2s infinite;
+    }
 
-/* ---------------- Nebula Backlight ---------------- */
-.circle::after {
-    content: "";
-    position: absolute;
-    inset: -55px;
-    z-index: -1;
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
 
-    background: radial-gradient(
-        circle,
-        rgba(120,170,255,0.45) 0%,
-        rgba(60,90,150,0.35) 40%,
-        rgba(20,30,60,0.08) 70%,
-        transparent 100%
-    );
+    .buttons { margin-top: 30px; display: none; }
 
-    filter: blur(55px);
-    animation: nebulaPulse 6s ease-in-out infinite;
+    button {
+      font-size: 1.1rem;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      margin: 8px;
+      transition: all 0.3s ease;
+    }
 
-    box-shadow:
-        inset 0 0 20px rgba(255,255,255,0.2),
-        0 0 60px rgba(80,130,255,0.3);
-}
+    .primary { background: #ff4d6d; color: #fff; }
+    .primary:hover { transform: scale(1.1); }
 
-/* ---------------- Rim Highlight + Spark Overlay ---------------- */
-.circle::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 5;
+    .yes {
+      background: #ff4d6d;
+      color: #fff;
+      transition: transform 0.4s ease, left 0.4s ease, top 0.4s ease;
+      position: relative;
+      z-index: 10;
+    }
+    .no {
+      background: #fff;
+      color: #ff4d6d;
+      position: relative;
+      transition: top 0.4s ease, transform 0.4s ease;
+      z-index: 5;
+    }
 
-    /* Rim light + subtle particles */
-    background:
-        radial-gradient(circle at center,
-            rgba(255,255,255,0.25) 30%,
-            rgba(120,160,255,0.45) 60%,
-            rgba(80,130,255,0.0) 85%),
-        radial-gradient(circle, rgba(255,255,255,0.2) 1px, transparent 2px);
-    background-size: 100% 100%, 10px 10px;
+    .message { margin-top: 20px; font-size: 1.5rem; display: none; }
 
-    mix-blend-mode: screen;
-    opacity: 0.55;
+    .gif-container { position: absolute; top: 20px; width: 100%; text-align: center; }
+    .gif-container img { max-width: 220px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
 
-    animation: edgeShine 3.5s ease-in-out infinite, spark 6s linear infinite;
-}
-
-/* ---------------- Floating + Rotation ---------------- */
-@keyframes floatRotate {
-    0% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-20px) rotate(10deg); }
-    100% { transform: translateY(0) rotate(0deg); }
-}
-
-/* ---------------- Nebula Pulse ---------------- */
-@keyframes nebulaPulse {
-    0% { opacity: .35; transform: scale(1); }
-    50% { opacity: .6; transform: scale(1.12); }
-    100% { opacity: .35; transform: scale(1); }
-}
-
-/* ---------------- Edge Shine ---------------- */
-@keyframes edgeShine {
-    0% { opacity: 0.45; transform: scale(1); }
-    50% { opacity: 0.8; transform: scale(1.05); }
-    100% { opacity: 0.45; transform: scale(1); }
-}
-
-/* ---------------- Spark Animation ---------------- */
-@keyframes spark {
-    0% { transform: translate(0,0) rotate(0deg); opacity: 0.3; }
-    50% { transform: translate(5px,-5px) rotate(180deg); opacity: 0.6; }
-    100% { transform: translate(0,0) rotate(360deg); opacity: 0.3; }
-}
-
-/* ---------------- Images inside stars ---------------- */
-.circle img.default-img,
-.circle img.hover-img {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    mix-blend-mode: screen;
-    opacity: 0.85;
-    transition: opacity 0.45s ease;
-    background: linear-gradient(135deg, rgba(120,170,255,0.25), rgba(60,90,150,0.15));
-}
-
-.circle img.hover-img { opacity: 0; }
-
-/* ---------------- Hover Effects ---------------- */
-.circle:hover img.default-img { opacity: 0; }
-.circle:hover img.hover-img { opacity: 1; }
-
-.circle:hover {
-    transform: scale(1.18) rotate(8deg);
-    filter: brightness(1.35);
-    box-shadow:
-        0 0 50px rgba(255,255,255,0.6),
-        0 0 100px rgba(80,130,255,0.85),
-        0 0 180px rgba(80,130,255,0.5);
-}
-
-/* ---------------- Responsive ---------------- */
-@media (max-width: 700px) {
-    .circle { width: 240px; height: 240px; }
-    header { font-size: 2.2rem; }
-}
-
-@media (max-width: 450px) {
-    .circle { width: 180px; height: 180px; }
-    header { font-size: 1.8rem; }
-}
-</style>
+    @media (max-width: 480px) {
+      .intro-text { font-size: 1.7rem; }
+      #word { font-size: 2.2rem; margin-top: 120px; }
+      .gif-container img { max-width: 160px; }
+    }
+  </style>
 </head>
-
 <body>
 
-<header>✨ My Animated Website ✨</header>
+  <div class="page" id="page1">
+    <div class="intro-text">I have something important to ask you… 💕</div>
+    <button class="primary" onclick="goToValentine()">Tap to continue 💌</button>
+  </div>
 
-<div class="circle-container">
+  <div class="page hidden" id="page2">
+    <div class="gif-container hidden" id="finalGif">
+      <img src="YOUR_GIF_HERE.gif" alt="Valentine GIF">
+    </div>
 
-    <a class="circle" href="page1.html">
-        <img src="Images/img1.jpg" class="default-img" alt="Page 1">
-        <img src="Images/img1-hover.jpg" class="hover-img" alt="Page 1 Hover">
-    </a>
+    <div id="word"></div>
 
-    <a class="circle" href="page2.html">
-        <img src="Images/img2.jpg" class="default-img" alt="Page 2">
-        <img src="Images/img2-hover.jpg" class="hover-img" alt="Page 2 Hover">
-    </a>
+    <div class="buttons" id="buttons">
+      <button class="yes" onclick="sayYes()">Yes 💘</button>
+      <button class="no" onclick="moveNo()">No 🙈</button>
+    </div>
 
-    <a class="circle" href="page3.html">
-        <img src="Images/img3.jpg" class="default-img" alt="Page 3">
-        <img src="Images/img3-hover.jpg" class="hover-img" alt="Page 3 Hover">
-    </a>
+    <div class="message" id="message">Yay! You just made my heart so happy 💕</div>
+  </div>
 
-    <a class="circle" href="page4.html">
-        <img src="Images/img4.jpg" class="default-img" alt="Page 4">
-        <img src="Images/img4-hover.jpg" class="hover-img" alt="Page 4 Hover">
-    </a>
+  <script>
+    for (let i = 0; i < 15; i++) {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = 5 + Math.random() * 5 + 's';
+      heart.style.display = 'none';
+      document.body.appendChild(heart);
+    }
 
-</div>
+    function goToValentine() {
+      document.getElementById('page1').classList.add('hidden');
+      document.getElementById('page2').classList.remove('hidden');
+      document.querySelectorAll('.heart').forEach(h => h.style.display = 'block');
+      setTimeout(showWords, 3000);
+    }
 
-<!-- JS for mobile tap hover -->
-<script>
-document.querySelectorAll('.circle').forEach(circle => {
-    circle.addEventListener('click', function(e) {
-        const defaultImg = circle.querySelector('.default-img');
-        const hoverImg = circle.querySelector('.hover-img');
+    const words = ["Will", "you", "be", "my", "Valentine?"]; 
+    const wordEl = document.getElementById('word');
+    const buttons = document.getElementById('buttons');
+    let index = 0;
 
-        if (defaultImg.style.opacity !== "0") {
-            defaultImg.style.opacity = "0";
-            hoverImg.style.opacity = "1";
-        } else {
-            defaultImg.style.opacity = "1";
-            hoverImg.style.opacity = "0";
-        }
-    });
-});
-</script>
+    function showWords() {
+      if (index < words.length) {
+        wordEl.textContent = words[index];
+        index++;
+        setTimeout(showWords, 900);
+      } else {
+        buttons.style.display = 'block';
+        document.getElementById('finalGif').classList.remove('hidden');
+      }
+    }
+
+    function sayYes() {
+      document.getElementById('message').style.display = 'block';
+    }
+
+    let noClicks = 0;
+
+    function moveNo() {
+      const noBtn = document.querySelector('.no');
+      const yesBtn = document.querySelector('.yes');
+      noClicks++;
+
+      // If last click, YES completely dominates Valentine text
+      if (noClicks >= 5) {
+        yesBtn.style.transform = 'scale(3) translate(-50%, -50%)';
+        yesBtn.style.position = 'absolute';
+        yesBtn.style.left = '50%';
+        yesBtn.style.top = '50%';
+        yesBtn.style.zIndex = '20';
+
+        // NO gets snatched
+        noBtn.textContent = '✋';
+        noBtn.style.fontSize = '2rem';
+        setTimeout(() => {
+          noBtn.style.transform = 'translate(-50%, 200%) scale(0)';
+        }, 300);
+        return;
+      }
+
+      // YES grows and moves gradually
+      const scale = 1 + noClicks * 0.15;
+      yesBtn.style.transform = `scale(${scale}) translate(-50%, -50%)`;
+      yesBtn.style.position = 'absolute';
+      yesBtn.style.left = '50%';
+      yesBtn.style.top = '60%';
+
+      // NO moves downward each click
+      noBtn.style.position = 'absolute';
+      noBtn.style.left = '50%';
+      noBtn.style.transform = 'translateX(-50%)';
+      noBtn.style.top = `${70 + noClicks * 6}%`;
+    }
+  </script>
 
 </body>
 </html>
