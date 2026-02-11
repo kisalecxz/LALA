@@ -95,6 +95,53 @@
     .primary { background: #ff4d6d; color: #fff; }
     .primary:hover { transform: scale(1.1); }
 
+    .envelope {
+      position: relative;
+      width: 200px;
+      height: 120px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .envelope:hover { transform: scale(1.05); }
+
+    .envelope-body {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #ff4d6d;
+      border-radius: 0 0 12px 12px;
+      z-index: 1;
+    }
+
+    .envelope-top {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: #ff6f8d;
+      clip-path: polygon(0 0, 50% 55%, 100% 0);
+      transform-origin: top;
+      transition: transform 0.5s ease;
+      z-index: 2;
+    }
+
+    .envelope:hover .envelope-top {
+      transform: rotateX(160deg);
+    }
+
+    .envelope-text {
+      position: absolute;
+      bottom: 12px;
+      width: 100%;
+      text-align: center;
+      font-weight: 600;
+      color: #fff;
+      z-index: 3;
+      pointer-events: none;
+    }
+
     .yes {
       background: #ff4d6d;
       color: #fff;
@@ -119,6 +166,10 @@
       .intro-text { font-size: 1.7rem; }
       #word { font-size: 2.2rem; margin-top: 120px; }
       .gif-container img { max-width: 160px; }
+      .envelope { transform: scale(0.9); }
+    }
+      #word { font-size: 2.2rem; margin-top: 120px; }
+      .gif-container img { max-width: 160px; }
     }
   </style>
 </head>
@@ -126,7 +177,11 @@
 
   <div class="page" id="page1">
     <div class="intro-text">I have something important to ask you… 💕</div>
-    <button class="primary" onclick="goToValentine()">Tap to continue 💌</button>
+    <div class="envelope" onclick="goToValentine()">
+      <div class="envelope-top"></div>
+      <div class="envelope-body"></div>
+      <div class="envelope-text">Tap to open 💌</div>
+    </div>
   </div>
 
   <div class="page hidden" id="page2">
@@ -186,15 +241,21 @@
     function moveNo() {
       const noBtn = document.querySelector('.no');
       const yesBtn = document.querySelector('.yes');
-      if(noClicks >= 3) return; // maximum 3 clicks
+      if (noClicks >= 3) return; // maximum 3 clicks
       noClicks++;
 
-      // Last click logic: YES centered and large, overlaps Valentine text
+      // Last click logic: YES aligns exactly with the Valentine word
       if (noClicks === 3) {
-        yesBtn.style.transform = 'scale(4) translate(-50%, -50%)';
+        const wordRect = wordEl.getBoundingClientRect();
+        const pageRect = document.getElementById('page2').getBoundingClientRect();
+
+        const centerX = wordRect.left + wordRect.width / 2 - pageRect.left;
+        const centerY = wordRect.top + wordRect.height / 2 - pageRect.top;
+
         yesBtn.style.position = 'absolute';
-        yesBtn.style.left = '50%';
-        yesBtn.style.top = '50%';
+        yesBtn.style.left = centerX + 'px';
+        yesBtn.style.top = centerY + 'px';
+        yesBtn.style.transform = 'translate(-50%, -50%) scale(4)';
         yesBtn.style.zIndex = '30';
 
         // NO snatched away
@@ -208,10 +269,10 @@
 
       // YES grows and moves gradually
       const scale = 1 + noClicks * 0.15;
-      yesBtn.style.transform = `scale(${scale}) translate(-50%, -50%)`;
       yesBtn.style.position = 'absolute';
       yesBtn.style.left = '50%';
       yesBtn.style.top = '60%';
+      yesBtn.style.transform = `translate(-50%, -50%) scale(${scale})`;
 
       // NO moves downward each click
       noBtn.style.position = 'absolute';
