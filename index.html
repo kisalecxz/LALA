@@ -282,5 +282,136 @@
     }
   </script>
 
+  <!-- Page 3: Letter after YES -->
+  <div class="page hidden" id="page3">
+    <div class="letter-wrapper">
+      <div class="letter">
+        <h2>My Love 💖</h2>
+        <p>
+          I’ve been wanting to ask you this in the most special way I know how.
+          Thank you for saying <strong>yes</strong> and for making my heart feel lighter,
+          happier, and full. 💕
+        </p>
+        <p>
+          This little letter carries a big promise — more laughs,
+          more memories, and more love together.
+        </p>
+        <p class="signature">Forever yours,<br>💌</p>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    /* Notebook paper container */
+    .letter-wrapper {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .letter {
+      width: 100%;
+      max-width: 520px;
+      background: #fffdf7;
+      padding: 48px 28px 36px;
+      border-radius: 4px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+      font-family: 'Poppins', sans-serif;
+      color: #333;
+      position: relative;
+      overflow: visible;
+    }
+    }
+    }
+
+    .letter::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 22px,
+        rgba(0,0,0,0.08) 23px
+      );
+      pointer-events: none;
+      z-index: 0;
+    }
+    }
+
+    /* Ripped notebook top */
+    .letter::after {
+      content: "";
+      position: absolute;
+      top: -18px;
+      left: -6px;
+      width: calc(100% + 12px);
+      height: 36px;
+      background:
+        radial-gradient(circle at 14px 18px, transparent 7px, #fffdf7 8px),
+        radial-gradient(circle at 48px 18px, transparent 7px, #fffdf7 8px),
+        radial-gradient(circle at 82px 18px, transparent 7px, #fffdf7 8px),
+        radial-gradient(circle at 116px 18px, transparent 7px, #fffdf7 8px);
+      background-size: 132px 36px;
+      background-repeat: repeat-x;
+      filter: drop-shadow(0 3px 2px rgba(0,0,0,0.15));
+      z-index: 2;
+    }
+    }
+    }
+
+    .letter h2 {
+      position: relative;
+      z-index: 3;
+      margin-top: 0;
+      color: #ff4d6d;
+      text-align: center;
+    }
+
+    .letter p {
+      position: relative;
+      z-index: 3;
+      margin-top: 0;
+      color: #ff4d6d;
+      text-align: center;
+    }
+
+    .letter p {
+      line-height: 1.7;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .signature {
+      margin-top: 24px;
+      text-align: right;
+      font-weight: 500;
+    }
+
+    @media (max-width: 480px) {
+      .letter {
+        padding: 26px 20px;
+      }
+
+      .letter p {
+        font-size: 14px;
+      }
+    }
+  </style>
+
+  <script>
+    const originalSayYes = window.sayYes;
+    window.sayYes = function () {
+      if (typeof originalSayYes === 'function') {
+        originalSayYes();
+      }
+      const page2 = document.getElementById('page2');
+      const page3 = document.getElementById('page3');
+      if (page2) page2.classList.add('hidden');
+      if (page3) page3.classList.remove('hidden');
+    };
+  </script>
 </body>
 </html>
