@@ -16,18 +16,18 @@ body {
   background: linear-gradient(135deg, #ff9a9e, #fad0c4);
   overflow-x: hidden;
   color: #fff;
+  position: relative;
 }
 
 /* Floating Hearts */
 .heart {
-  position: fixed; /* <-- changed to fixed so hearts float over all pages */
+  position: absolute; /* absolute within body so it scrolls with page */
   width: 20px;
   height: 20px;
   background: red;
   transform: rotate(45deg);
-  animation: float 8s linear infinite;
   opacity: 0.7;
-  z-index: 999; /* ensure hearts are above everything */
+  z-index: 999;
 }
 
 .heart::before,
@@ -43,15 +43,9 @@ body {
 .heart::before { left: -10px; }
 .heart::after { top: -10px; }
 
-@keyframes float {
-  0% { transform: translateY(100vh) rotate(45deg); }
-  100% { transform: translateY(-10vh) rotate(45deg); }
-}
-
 /* Pages */
 .page {
-  position: absolute;
-  inset: 0;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -298,23 +292,41 @@ button {
 </div>
 
 <script>
-// Floating hearts
+// Hearts flowing through full page
 const hearts = [];
+const pageHeight = document.body.scrollHeight;
 for (let i = 0; i < 15; i++) {
   const heart = document.createElement('div');
   heart.className = 'heart';
   heart.style.left = Math.random() * 100 + 'vw';
+  heart.style.top = pageHeight + Math.random() * 200 + 'px'; // start below page
   heart.style.animationDuration = 5 + Math.random() * 5 + 's';
   document.body.appendChild(heart);
   hearts.push(heart);
+
+  animateHeart(heart);
+}
+
+// Animate hearts upward
+function animateHeart(el) {
+  const speed = 1 + Math.random() * 2; // speed in px per frame
+  function move() {
+    let top = parseFloat(el.style.top);
+    top -= speed;
+    if (top < -50) { // reset to bottom of page
+      top = document.body.scrollHeight + 50;
+      el.style.left = Math.random() * 100 + 'vw';
+    }
+    el.style.top = top + 'px';
+    requestAnimationFrame(move);
+  }
+  requestAnimationFrame(move);
 }
 
 function goToValentine() {
   document.getElementById('page1').classList.add('hidden');
   const page2 = document.getElementById('page2');
   page2.classList.remove('hidden');
-  hearts.forEach(h => h.style.display = 'block');
-  setTimeout(showWords, 2000);
 }
 
 const words = ["WILL", "YOU", "BE", "MY", "VALENTINE?"];
@@ -340,9 +352,4 @@ function sayYes() {
 
 function moveNo() {
   const noBtn = document.querySelector('.no');
-  noBtn.style.transform = "translateY(20px)";
-}
-</script>
-
-</body>
-</html>
+  noBtn.style.transform = "translateY(20
