@@ -1,369 +1,461 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Will You Be My Valentine?</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Will You Be My Valentine?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
 
-<style>
-* { box-sizing: border-box; }
+    body {
+      margin: 0;
+      height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      overflow: hidden;
+      color: #fff;
+    }
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-  overflow-x: hidden;
-  color: #fff;
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      transform: rotate(45deg);
+      animation: float 8s linear infinite;
+      opacity: 0.7;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      border-radius: 50%;
+    }
+
+    .heart::before { left: -10px; }
+    .heart::after { top: -10px; }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) rotate(45deg); }
+      100% { transform: translateY(-10vh) rotate(45deg); }
+    }
+
+    .page {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 16px;
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.95);
+    }
+
+    #page1 { background: #ffffff; color: #333; }
+
+    #word {
+      font-size: 3rem;
+      min-height: 3.5rem;
+      margin-top: 60px;
+      font-weight: 700;
+      color: #ff2f5b;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.3), 0 0 10px #fff;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .buttons { margin-top: 30px; display: none; }
+
+    button {
+      font-size: 1.1rem;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      margin: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .primary { background: #ff4d6d; color: #fff; }
+    .primary:hover { transform: scale(1.1); }
+
+    .envelope {
+      position: relative;
+      width: 500px;
+      height: 300px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .envelope:hover { transform: scale(1.05); }
+
+    .envelope-body {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #ff4d6d;
+      border-radius: 0 0 12px 12px;
+      z-index: 1;
+    }
+
+    .envelope-top {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: #ff6f8d;
+      clip-path: polygon(0 0, 50% 55%, 100% 0);
+      transform-origin: top;
+      transition: transform 0.5s ease;
+      z-index: 2;
+    }
+
+    .envelope:hover .envelope-top {
+      transform: rotateX(160deg);
+    }
+
+    .envelope-text {
+      position: absolute;
+      bottom: 12px;
+      width: 100%;
+      text-align: center;
+      font-weight: 600;
+      color: #fff;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .yes {
+      background: #ff4d6d;
+      color: #fff;
+      transition: transform 0.4s ease, left 0.4s ease, top 0.4s ease;
+      position: relative;
+      z-index: 10;
+    }
+    .no {
+      background: #fff;
+      color: #ff4d6d;
+      position: relative;
+      transition: top 0.4s ease, transform 0.4s ease;
+      z-index: 5;
+    }
+
+    .message { margin-top: 20px; font-size: 1.5rem; display: none; }
+
+    .gif-container {
+      position: relative;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .gif-container img {
+      max-width: 320px;
+      width: 80%;
+      border-radius: 18px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    }
+
+    @media (max-width: 480px) {
+      .intro-text { font-size: 1.7rem; }
+      #word { font-size: 2.2rem; margin-top: 40px; }
+      .gif-container img { max-width: 220px; width: 90%; }
+      .envelope { transform: scale(0.9); }
+    }
+      #word { font-size: 2.2rem; margin-top: 120px; }
+      .gif-container img { max-width: 160px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page" id="page1">
+    <div class="intro-text">Hello Love! Question 🤔</div>
+    <div class="envelope" onclick="goToValentine()">
+      <div class="envelope-top"></div>
+      <div class="envelope-body"></div>
+      <div class="envelope-text">Tap to open 💌</div>
+    </div>
+  </div>
+
+  <div class="page hidden" id="page2">
+    <div class="gif-container hidden" id="finalGif">
+      <img src="cat.gif" alt="Valentine GIF">
+    </div>
+
+    <div id="word"></div>
+
+    <div class="buttons" id="buttons">
+      <button class="yes" onclick="sayYes()">YES NA YES!</button>
+      <button class="no" onclick="moveNo()">AYAW!(try mo!)</button>
+    </div>
+
+    <div class="message" id="message">Yay! You just made my heart so happy 💕</div>
+  </div>
+
+  <script>
+    for (let i = 0; i < 15; i++) {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = 5 + Math.random() * 5 + 's';
+      heart.style.display = 'none';
+      document.body.appendChild(heart);
+    }
+
+    function goToValentine() {
+      document.getElementById('page1').classList.add('hidden');
+      document.getElementById('page2').classList.remove('hidden');
+      document.querySelectorAll('.heart').forEach(h => h.style.display = 'block');
+      setTimeout(showWords, 3000);
+    }
+
+    const words = ["WILL", "YOU", "BE", "MY", "VALENTINE?"]; 
+    const wordEl = document.getElementById('word');
+    const buttons = document.getElementById('buttons');
+    let index = 0;
+
+    function showWords() {
+      if (index < words.length) {
+        wordEl.textContent = words[index];
+        index++;
+        setTimeout(showWords, 900);
+      } else {
+        buttons.style.display = 'block';
+        document.getElementById('finalGif').classList.remove('hidden');f
+      }
+    }
+
+    function sayYes() {
+      document.getElementById('message').style.display = 'block';
+    }
+
+    let noClicks = 0;
+
+    function moveNo() {
+      const noBtn = document.querySelector('.no');
+      const yesBtn = document.querySelector('.yes');
+      if (noClicks >= 3) return; // maximum 3 clicks
+      noClicks++;
+
+      // Last click logic: YES aligns exactly with the Valentine word
+      if (noClicks === 3) {
+        const wordRect = wordEl.getBoundingClientRect();
+        const pageRect = document.getElementById('page2').getBoundingClientRect();
+
+        const centerX = wordRect.left + wordRect.width / 2 - pageRect.left;
+        const centerY = wordRect.top + wordRect.height / 2 - pageRect.top;
+
+        yesBtn.style.position = 'absolute';
+        yesBtn.style.left = centerX + 'px';
+        yesBtn.style.top = centerY + 'px';
+        yesBtn.style.transform = 'translate(-50%, -50%) scale(4)';
+        yesBtn.style.zIndex = '30';
+
+        // NO snatched away
+        noBtn.textContent = '✋';
+        noBtn.style.fontSize = '2rem';
+        setTimeout(() => {
+          noBtn.style.transform = 'translate(-50%, 200%) scale(0)';
+        }, 300);
+        return;
+      }
+
+      // YES grows and moves gradually
+      const scale = 1 + noClicks * 0.15;
+      yesBtn.style.position = 'absolute';
+      yesBtn.style.left = '50%';
+      yesBtn.style.top = '60%';
+      yesBtn.style.transform = `translate(-50%, -50%) scale(${scale})`;
+
+      // NO moves downward each click
+      noBtn.style.position = 'absolute';
+      noBtn.style.left = '50%';
+      noBtn.style.transform = 'translateX(-50%)';
+      noBtn.style.top = `${70 + noClicks * 6}%`;
+    }
+  </script>
+
+  <!-- Page 3: Letter after YES -->
+  <div class="page hidden" id="page3">
+    <div class="letter-wrapper">
+      <div class="letter">
+        <div class="letter-gif">
+          <img src="flower.gif" alt="Love GIF">
+        </div>
+        <h2>GOOD CHOICE, LOVE!</h2>
+        <p>
+          Hello, best girlfriend! I just want you to know that I appreciate you so, so much. I know it takes a lot of patience to understand someone 
+          who isn’t really used to expressing his emotions, so please know that I always notice how much effort you put into our relationship. Please know that I also 
+          remember the little things you do for me, and the changes—even the sacrifices—you’ve made for us, even though we’ve only been together for almost two months.
+          So thank you love for being Lara, and for being someone that I could see my future with.
+          
+ </p>
+        <p>
+          I know you have your worries, but please know as well that my heart is so happy with you and what we have. I know there are still a lot of room for growth, but that’s
+          something we will figure out together. Please remember that I will always choose you, no matter how big our misunderstandings may be, and that is something I can promise 
+          that will never change. I love
+          
+        </p>
+        <p>
+        I’m sorry that I couldn’t be with you on our first Valentine’s Day, and I know that you’re not really the type to celebrate, but I still wanted to spend the day with you,
+        Kaya bawi po ako next week. Happy Valentine’s Day, love!
+        Corny na kung corny, but I wanted you to know how loved you are, so mag-cringe ka lang diyan. I love you, love! 💕
+        </p>
+        <p class="signature">Alec 😛,<br>💌</p>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    /* Notebook paper container */
+    .letter-wrapper {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .letter {
+      width: 100%;
+      max-width: 520px;
+      background: #fffdf7;
+      padding: 48px 28px 36px;
+      border-radius: 4px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+      font-family: 'Poppins', sans-serif;
+      color: #333;
+      position: relative;
+      overflow: visible;
+    }
+    }
+    }
+
+    .letter::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 22px,
+        rgba(0,0,0,0.08) 23px
+      );
+      pointer-events: none;
+      z-index: 0;
+    }
+    }
+
+    /* Ripped notebook top */
+    .letter::after {
+      content: "";
+      position: absolute;
+      top: -18px;
+      left: -6px;
+      width: calc(100% + 12px);
+      height: 36px;
+      background:
+        radial-gradient(circle at 14px 18px, transparent 7px, #fffdf7 8px),
+        radial-gradient(circle at 48px 18px, transparent 7px, #fffdf7 8px),
+        radial-gradient(circle at 82px 18px, transparent 7px, #fffdf7 8px),
+        radial-gradient(circle at 116px 18px, transparent 7px, #fffdf7 8px);
+      background-size: 132px 36px;
+      background-repeat: repeat-x;
+      filter: drop-shadow(0 3px 2px rgba(0,0,0,0.15));
+      z-index: 2;
+    }
+    }
+    }
+
+    .letter-gif {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 3;
+    }
+
+    .letter-gif img {
+      max-width: 180px;
+      width: 70%;
+      border-radius: 14px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    }
+
+    @media (max-width: 480px) {
+      .letter-gif img {
+        max-width: 140px;
+        width: 80%;
+      }
+    }
+
+    .letter h2 {
+      position: relative;
+      z-index: 3;
+      margin-top: 0;
+      color: #ff4d6d;
+      text-align: center;
+    }
+
+   .letter p {
   position: relative;
-}
-
-/* Floating Hearts */
-.heart {
-  position: absolute; /* absolute within body so it scrolls with page */
-  width: 20px;
-  height: 20px;
-  background: red;
-  transform: rotate(45deg);
-  opacity: 0.7;
-  z-index: 999;
-}
-
-.heart::before,
-.heart::after {
-  content: "";
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  background: red;
-  border-radius: 50%;
-}
-
-.heart::before { left: -10px; }
-.heart::after { top: -10px; }
-
-/* Pages */
-.page {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 20px;
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-.hidden {
-  opacity: 0;
-  pointer-events: none;
-  transform: scale(0.95);
-}
-
-#page1 { background: #ffffff; color: #333; }
-
-/* Valentine Text */
-#word {
-  font-size: 3rem;
-  min-height: 3.5rem;
-  margin-top: 60px;
-  font-weight: 700;
-  color: #ff2f5b;
-  text-shadow: 2px 2px 6px rgba(0,0,0,0.3), 0 0 10px #fff;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%,100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-}
-
-/* Buttons */
-.buttons { margin-top: 30px; display: none; }
-
-button {
-  font-size: 1.1rem;
-  padding: 12px 30px;
-  border: none;
-  border-radius: 30px;
-  cursor: pointer;
-  margin: 8px;
-  transition: all 0.3s ease;
-}
-
-.yes { background: #ff4d6d; color: #fff; }
-.no { background: #fff; color: #ff4d6d; }
-
-.message { margin-top: 20px; font-size: 1.5rem; display: none; }
-
-/* Envelope */
-.envelope {
-  position: relative;
-  width: 300px;
-  height: 200px;
-  cursor: pointer;
-  margin-top: 20px;
-}
-
-.envelope-body {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: #ff4d6d;
-  border-radius: 0 0 12px 12px;
-}
-
-.envelope-top {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: #ff6f8d;
-  clip-path: polygon(0 0, 50% 55%, 100% 0);
-  transform-origin: top;
-  transition: transform 0.5s ease;
-}
-
-.envelope:hover .envelope-top {
-  transform: rotateX(160deg);
-}
-
-.envelope-text {
-  position: absolute;
-  bottom: 10px;
-  width: 100%;
-  font-weight: 600;
-  color: #fff;
-}
-
-/* GIF */
-.gif-container img {
-  max-width: 320px;
-  width: 80%;
-  border-radius: 18px;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-}
-
-/* ================= PAGE 3 FIX ================= */
-
-#page3 {
-  position: relative;
-  overflow-y: auto;
-  padding: 60px 0;
-}
-
-/* Letter */
-.letter-wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-}
-
-.letter {
-  width: 100%;
-  max-width: 520px;
-  background: #fffdf7;
-  padding: 40px 28px;
-  border-radius: 8px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+  z-index: 3;
+  margin-top: 0;
   color: #333;
-  position: relative;
-}
-
-/* Notebook lines */
-.letter::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    to bottom,
-    transparent,
-    transparent 22px,
-    rgba(0,0,0,0.06) 23px
-  );
-  pointer-events: none;
-}
-
-/* Letter text */
-.letter h2 {
-  color: #ff4d6d;
-  text-align: center;
-}
-
-.letter p {
   line-height: 1.7;
   margin-bottom: 16px;
   font-size: 15px;
   text-align: justify;
 }
 
-.signature {
-  margin-top: 24px;
-  text-align: right;
-  font-weight: 500;
-}
 
-/* GIF for Page 3 */
-.letter-gif {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 18px;
-}
-
-.letter-gif img {
-  max-width: 180px;
-  width: 70%;
-  border-radius: 14px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-}
-
-/* Mobile */
-@media (max-width: 480px) {
-  #word { font-size: 2rem; margin-top: 40px; }
-
-  .letter {
-    padding: 24px 18px;
-  }
-
-  .letter p {
-    font-size: 14px;
-  }
-
-  .letter h2 {
-    font-size: 18px;
-  }
-
-  .letter-gif img {
-    max-width: 130px;
-  }
-}
-</style>
-</head>
-
-<body>
-
-<div class="page" id="page1">
-  <div class="intro-text">Hello Love! Question 🤔</div>
-  <div class="envelope" onclick="goToValentine()">
-    <div class="envelope-top"></div>
-    <div class="envelope-body"></div>
-    <div class="envelope-text">Tap to open 💌</div>
-  </div>
-</div>
-
-<div class="page hidden" id="page2">
-  <div class="gif-container hidden" id="finalGif">
-    <img src="cat.gif">
-  </div>
-  <div id="word"></div>
-  <div class="buttons" id="buttons">
-    <button class="yes" onclick="sayYes()">YES NA YES!</button>
-    <button class="no" onclick="moveNo()">AYAW!(try mo!)</button>
-  </div>
-</div>
-
-<!-- PAGE 3 -->
-<div class="page hidden" id="page3">
-  <div class="letter-wrapper">
-    <div class="letter">
-      <!-- GIF added on top of letter -->
-      <div class="letter-gif">
-        <img src="flower.gif" alt="Love GIF">
-      </div>
-      <h2>GOOD CHOICE, LOVE!</h2>
-
-      <p>
-      Hello, best girlfriend! I just want you to know that I appreciate you so, so much. I know it takes a lot of patience to understand someone 
-          who isn’t really used to expressing his emotions, so please know that I always notice how much effort you put into our relationship. Please know that I also 
-          remember the little things you do for me, and the changes—even the sacrifices—you’ve made for us, even though we’ve only been together for almost two months.
-          So thank you love for being Lara, and for being someone that I could see my future with.
-          
-      </p>
-
-      <p>
-      I know you have your worries, but please know as well that my heart is so happy with you and what we have. I know there are still a lot of room for growth, but that’s
-          something we will figure out together. Please remember that I will always choose you, no matter how big our misunderstandings may be, and that is something I can promise 
-          that will never change. I love
-
-      </p>
-
-      <p>
-    I’m sorry that I couldn’t be with you on our first Valentine’s Day, and I know that you’re not really the type to celebrate, but I still wanted to spend the day with you,
-        Kaya bawi po ako next week. Happy Valentine’s Day, love!
-        Corny na kung corny, but I wanted you to know how loved you are, so mag-cringe ka lang diyan. I love you, love! 💕
-      </p>
-
-      <p class="signature">Alec 😛,<br>💌</p>
-    </div>
-  </div>
-</div>
-
-<script>
-// Hearts flowing through full page
-const hearts = [];
-const pageHeight = document.body.scrollHeight;
-for (let i = 0; i < 15; i++) {
-  const heart = document.createElement('div');
-  heart.className = 'heart';
-  heart.style.left = Math.random() * 100 + 'vw';
-  heart.style.top = pageHeight + Math.random() * 200 + 'px'; // start below page
-  heart.style.animationDuration = 5 + Math.random() * 5 + 's';
-  document.body.appendChild(heart);
-  hearts.push(heart);
-
-  animateHeart(heart);
-}
-
-// Animate hearts upward
-function animateHeart(el) {
-  const speed = 1 + Math.random() * 2; // speed in px per frame
-  function move() {
-    let top = parseFloat(el.style.top);
-    top -= speed;
-    if (top < -50) { // reset to bottom of page
-      top = document.body.scrollHeight + 50;
-      el.style.left = Math.random() * 100 + 'vw';
+    .signature {
+      margin-top: 24px;
+      text-align: right;
+      font-weight: 500;
     }
-    el.style.top = top + 'px';
-    requestAnimationFrame(move);
-  }
-  requestAnimationFrame(move);
-}
 
-function goToValentine() {
-  document.getElementById('page1').classList.add('hidden');
-  const page2 = document.getElementById('page2');
-  page2.classList.remove('hidden');
-}
+    @media (max-width: 480px) {
+      .letter {
+        padding: 26px 20px;
+      }
 
-const words = ["WILL", "YOU", "BE", "MY", "VALENTINE?"];
-const wordEl = document.getElementById('word');
-const buttons = document.getElementById('buttons');
-let index = 0;
+      .letter p {
+        font-size: 14px;
+      }
+    }
+  </style>
 
-function showWords() {
-  if (index < words.length) {
-    wordEl.textContent = words[index];
-    index++;
-    setTimeout(showWords, 700);
-  } else {
-    buttons.style.display = 'block';
-    document.getElementById('finalGif').classList.remove('hidden');
-  }
-}
-
-function sayYes() {
-  document.getElementById('page2').classList.add('hidden');
-  document.getElementById('page3').classList.remove('hidden');
-}
-
-function moveNo() {
-  const noBtn = document.querySelector('.no');
-  noBtn.style.transform = "translateY(20px)";
-}
-</script>
-
+  <script>
+    const originalSayYes = window.sayYes;
+    window.sayYes = function () {
+      if (typeof originalSayYes === 'function') {
+        originalSayYes();
+      }
+      const page2 = document.getElementById('page2');
+      const page3 = document.getElementById('page3');
+      if (page2) page2.classList.add('hidden');
+      if (page3) page3.classList.remove('hidden');
+    };
+  </script>
 </body>
 </html>
