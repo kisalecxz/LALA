@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FOR LALA ONLY?</title>
+  <title>Will You Be My Valentine?</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; }
@@ -68,7 +68,7 @@
     #word {
       font-size: 3rem;
       min-height: 3.5rem;
-      margin-top: 140px;
+      margin-top: 60px;
       font-weight: 700;
       color: #ff2f5b;
       text-shadow: 2px 2px 6px rgba(0,0,0,0.3), 0 0 10px #fff;
@@ -159,13 +159,24 @@
 
     .message { margin-top: 20px; font-size: 1.5rem; display: none; }
 
-    .gif-container { position: absolute; top: 20px; width: 100%; text-align: center; }
-    .gif-container img { max-width: 220px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+    .gif-container {
+      position: relative;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .gif-container img {
+      max-width: 320px;
+      width: 80%;
+      border-radius: 18px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    }
 
     @media (max-width: 480px) {
       .intro-text { font-size: 1.7rem; }
-      #word { font-size: 2.2rem; margin-top: 120px; }
-      .gif-container img { max-width: 160px; }
+      #word { font-size: 2.2rem; margin-top: 40px; }
+      .gif-container img { max-width: 220px; width: 90%; }
       .envelope { transform: scale(0.9); }
     }
       #word { font-size: 2.2rem; margin-top: 120px; }
@@ -176,7 +187,7 @@
 <body>
 
   <div class="page" id="page1">
-    <div class="intro-text">Hello, Love! Question 🤔</div>
+    <div class="intro-text">I have something important to ask you… 💕</div>
     <div class="envelope" onclick="goToValentine()">
       <div class="envelope-top"></div>
       <div class="envelope-body"></div>
@@ -216,7 +227,7 @@
       setTimeout(showWords, 3000);
     }
 
-    const words = ["WILL", "YOU", "BE", "MY", "VALENTINE?"]; 
+    const words = ["Will", "you", "be", "my", "Valentine?"]; 
     const wordEl = document.getElementById('word');
     const buttons = document.getElementById('buttons');
     let index = 0;
@@ -286,6 +297,9 @@
   <div class="page hidden" id="page3">
     <div class="letter-wrapper">
       <div class="letter">
+        <div class="letter-gif">
+          <img src="flower.gif" alt="Love GIF">
+        </div>
         <h2>My Love 💖</h2>
         <p>
           I’ve been wanting to ask you this in the most special way I know how.
@@ -360,6 +374,29 @@
       z-index: 2;
     }
     }
+    }
+
+    .letter-gif {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 3;
+    }
+
+    .letter-gif img {
+      max-width: 180px;
+      width: 70%;
+      border-radius: 14px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    }
+
+    @media (max-width: 480px) {
+      .letter-gif img {
+        max-width: 140px;
+        width: 80%;
+      }
     }
 
     .letter h2 {
