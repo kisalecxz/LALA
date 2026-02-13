@@ -20,13 +20,14 @@ body {
 
 /* Floating Hearts */
 .heart {
-  position: absolute;
+  position: fixed; /* <-- changed to fixed so hearts float over all pages */
   width: 20px;
   height: 20px;
   background: red;
   transform: rotate(45deg);
   animation: float 8s linear infinite;
   opacity: 0.7;
+  z-index: 999; /* ensure hearts are above everything */
 }
 
 .heart::before,
@@ -147,10 +148,9 @@ button {
   width: 80%;
   border-radius: 18px;
   box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-  margin-bottom: 20px;
 }
 
-/* ================= PAGE 3 ================= */
+/* ================= PAGE 3 FIX ================= */
 
 #page3 {
   position: relative;
@@ -191,21 +191,6 @@ button {
   pointer-events: none;
 }
 
-/* Letter GIF on top */
-.letter-gif {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 18px;
-}
-
-.letter-gif img {
-  max-width: 180px;
-  width: 70%;
-  border-radius: 14px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-}
-
 /* Letter text */
 .letter h2 {
   color: #ff4d6d;
@@ -223,6 +208,21 @@ button {
   margin-top: 24px;
   text-align: right;
   font-weight: 500;
+}
+
+/* GIF for Page 3 */
+.letter-gif {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.letter-gif img {
+  max-width: 180px;
+  width: 70%;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
 }
 
 /* Mobile */
@@ -274,12 +274,10 @@ button {
 <div class="page hidden" id="page3">
   <div class="letter-wrapper">
     <div class="letter">
-
-      <!-- GIF on top -->
+      <!-- GIF added on top of letter -->
       <div class="letter-gif">
         <img src="flower.gif" alt="Love GIF">
       </div>
-
       <h2>GOOD CHOICE, LOVE!</h2>
 
       <p>
@@ -300,15 +298,14 @@ button {
 </div>
 
 <script>
-// Create hearts
+// Floating hearts
 const hearts = [];
 for (let i = 0; i < 15; i++) {
   const heart = document.createElement('div');
   heart.className = 'heart';
   heart.style.left = Math.random() * 100 + 'vw';
   heart.style.animationDuration = 5 + Math.random() * 5 + 's';
-  heart.style.display = 'none';
-  document.body.appendChild(heart); // <- keep on body
+  document.body.appendChild(heart);
   hearts.push(heart);
 }
 
@@ -316,11 +313,9 @@ function goToValentine() {
   document.getElementById('page1').classList.add('hidden');
   const page2 = document.getElementById('page2');
   page2.classList.remove('hidden');
-  page2.style.overflow = 'visible'; // ensure hearts are not clipped
   hearts.forEach(h => h.style.display = 'block');
   setTimeout(showWords, 2000);
 }
-
 
 const words = ["WILL", "YOU", "BE", "MY", "VALENTINE?"];
 const wordEl = document.getElementById('word');
