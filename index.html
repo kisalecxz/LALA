@@ -141,12 +141,13 @@ button {
   color: #fff;
 }
 
-/* GIF container */
+/* GIF */
 .gif-container img {
   max-width: 320px;
   width: 80%;
   border-radius: 18px;
   box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+  margin-bottom: 20px;
 }
 
 /* ================= PAGE 3 ================= */
@@ -174,8 +175,6 @@ button {
   box-shadow: 0 20px 40px rgba(0,0,0,0.25);
   color: #333;
   position: relative;
-  opacity: 0;
-  transition: opacity 1s ease;
 }
 
 /* Notebook lines */
@@ -192,13 +191,12 @@ button {
   pointer-events: none;
 }
 
-/* GIF at top of letter */
+/* Letter GIF on top */
 .letter-gif {
   width: 100%;
   display: flex;
   justify-content: center;
   margin-bottom: 18px;
-  position: relative;
 }
 
 .letter-gif img {
@@ -275,7 +273,9 @@ button {
 <!-- PAGE 3 -->
 <div class="page hidden" id="page3">
   <div class="letter-wrapper">
-    <div class="letter" id="letterContent">
+    <div class="letter">
+
+      <!-- GIF on top -->
       <div class="letter-gif">
         <img src="flower.gif" alt="Love GIF">
       </div>
@@ -300,7 +300,6 @@ button {
 </div>
 
 <script>
-/* Floating Hearts */
 for (let i = 0; i < 15; i++) {
   const heart = document.createElement('div');
   heart.className = 'heart';
@@ -310,7 +309,6 @@ for (let i = 0; i < 15; i++) {
   document.body.appendChild(heart);
 }
 
-/* Page transitions */
 function goToValentine() {
   document.getElementById('page1').classList.add('hidden');
   document.getElementById('page2').classList.remove('hidden');
@@ -336,11 +334,7 @@ function showWords() {
 
 function sayYes() {
   document.getElementById('page2').classList.add('hidden');
-  const page3 = document.getElementById('page3');
-  page3.classList.remove('hidden');
-  const letter = document.getElementById('letterContent');
-  // Fade in letter
-  setTimeout(() => { letter.style.opacity = 1; }, 100);
+  document.getElementById('page3').classList.remove('hidden');
 }
 
 function moveNo() {
