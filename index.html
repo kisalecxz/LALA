@@ -300,21 +300,27 @@ button {
 </div>
 
 <script>
+// Create hearts
+const hearts = [];
 for (let i = 0; i < 15; i++) {
   const heart = document.createElement('div');
   heart.className = 'heart';
   heart.style.left = Math.random() * 100 + 'vw';
   heart.style.animationDuration = 5 + Math.random() * 5 + 's';
   heart.style.display = 'none';
-  document.body.appendChild(heart);
+  document.body.appendChild(heart); // <- keep on body
+  hearts.push(heart);
 }
 
 function goToValentine() {
   document.getElementById('page1').classList.add('hidden');
-  document.getElementById('page2').classList.remove('hidden');
-  document.querySelectorAll('.heart').forEach(h => h.style.display = 'block');
+  const page2 = document.getElementById('page2');
+  page2.classList.remove('hidden');
+  page2.style.overflow = 'visible'; // ensure hearts are not clipped
+  hearts.forEach(h => h.style.display = 'block');
   setTimeout(showWords, 2000);
 }
+
 
 const words = ["WILL", "YOU", "BE", "MY", "VALENTINE?"];
 const wordEl = document.getElementById('word');
